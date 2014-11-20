@@ -24,7 +24,7 @@ namespace GroupCreator
                     // Get the first worksheet
                     var sheet = workBook.Worksheets.First();
                     var participants = new List<Participant>();
-                    for (int i = 2; i < sheet.Dimension.End.Row; i++)
+                    for (int i = 2; i < sheet.Dimension.End.Row + 1; i++)
                     {
                         participants.Add(new Participant()
                             {
@@ -60,12 +60,12 @@ namespace GroupCreator
                         groups[minGroup].Add(maxParticipant); groups[maxGroup].Remove(maxParticipant);
                         groups[maxGroup].Add(minParticipant); groups[minGroup].Remove(minParticipant);
                     }
-                    var groupSecondarySkillCount2 = groups.ToDictionary(g => g.Key, g => g.Value.SelectMany(p => p.DetailedSkills).Count());
-                    Console.WriteLine(String.Join(", ", groupSecondarySkillCount2.Select(g => String.Format("({0},{1})", g.Key, g.Value))));
+                    //var groupSecondarySkillCount2 = groups.ToDictionary(g => g.Key, g => g.Value.SelectMany(p => p.DetailedSkills).Count());
+                    //Console.WriteLine(String.Join(", ", groupSecondarySkillCount2.Select(g => String.Format("({0},{1})", g.Key, g.Value))));
 
                     foreach (var group in participants.GroupBy(p => p.groupID).OrderBy(g => g.Key))
                     {
-                        Console.WriteLine(String.Format("Groep {0}: {1}", group.Key, String.Join(", ", group.OrderBy(g => g.Name).Select(p => String.Format("{0} ({1})", p.Name, p.Skill)).ToArray())));
+                        Console.WriteLine(String.Format("Groep {0}: {1}", group.Key, String.Join(", ", group.OrderBy(g => g.Name).Select(p => String.Format("{0}", p.Name, p.Skill)).ToArray())));
                     }
                 }
             }
